@@ -12,7 +12,7 @@ class DealType(DjangoObjectType):
         model= Deal
         fields= '__all__'
 
-class CRMQuery(graphene.objectType):
+class CRMQuery(graphene.ObjectType):
     all_contacts= graphene.List(ContactType)
     all_deals = graphene.List(DealType)
     contact_by_id= graphene.Field(ContactType, id=graphene.Int(required=True))

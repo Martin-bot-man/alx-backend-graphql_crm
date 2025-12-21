@@ -1,8 +1,8 @@
-from tkinter import CASCADE
 from django.db import models
 
 from django.core.exceptions import ValidationError
 import re
+from decimal import Decimal
 
 class Contact(models.Model):
     first_name = models.CharField(max_length=30)
@@ -39,7 +39,7 @@ class Deal(models.Model):
     class Meta:
         ordering = ['-created_at']
 
-    class Customer(models.Model):
+class Customer(models.Model):
         name = models.CharField(max_length=100)
         email= models.EmailField(unique=True)
         phone = models.CharField(max_length=20, blank=True)
@@ -84,7 +84,7 @@ class Product(models.Model):
         if self.stock <0:
             raise ValidationError({"stock": "Stock cannot be negative."})
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=CASCADE, related_name='orders')
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     products = models.ManyToManyField(Product, related_name='orders')
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     order_date = models.DateTimeField(auto_now_add=True)
